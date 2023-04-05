@@ -45,7 +45,7 @@ def login_to_account(main, user):
     main.LoginEdit2.type_keys(user['login'], pause=0.05)
     main.submitButton.click_input()
 
-def test_manager_search(login_page):
+def test_catalog_search(login_page):
     login_to_account(login_page, credentials["manager"])
     manager_dlg = Desktop(backend="uia").Manager
     manager_dlg.TabItem2.click_input()
@@ -65,7 +65,7 @@ def test_customer_add(login_page):
     manager_dlg.Dialog2.Button.click_input()
     manager_dlg.Button4.click_input()
 
-def test_hire_employee(login_page):
+def test_hire_and_fire_employee(login_page):
     login_to_account(login_page, credentials["admin"])
     admin_dlg = Desktop(backend="uia").Administrator
     admin_dlg.LoginEdit5.type_keys("Сергей", pause=0.05)
@@ -88,79 +88,68 @@ def test_hire_employee(login_page):
     mouse.click(coords=(top + (280 + 420), left + (460 - 25)))
     admin_dlg.Button5.click_input()
 
-def test_analyst_check_store(login_page):
+def test_check_store(login_page):
     login_to_account(login_page, credentials["analyst"])
     analyst_dlg = Desktop(backend="uia").Analyst
     analyst_dlg.Button.click_input()
     assert analyst_dlg.DataGridView.Custom2.Edit4.legacy_properties()["Value"] == "VHS Проигрыватель"
     analyst_dlg.Button7.click_input()
 
-def test_analyst_managers_top(login_page):
+def test_managers_top(login_page):
     login_to_account(login_page, credentials["analyst"])
     analyst_dlg = Desktop(backend="uia").Analyst
     analyst_dlg.Button2.click_input()
     assert analyst_dlg.DataGridView.Custom2.Edit4.legacy_properties()["Value"] == "Илья"
     analyst_dlg.Button7.click_input()
 
-def test_analyst_count_sales(login_page):
+def test_count_sales(login_page):
     login_to_account(login_page, credentials["analyst"])
     analyst_dlg = Desktop(backend="uia").Analyst
     analyst_dlg.Button4.click_input()
     assert analyst_dlg.DataGridView.Custom2.Edit4.legacy_properties()["Value"] == "26000"
     analyst_dlg.Button7.click_input()
 
-def test_analyst_goods_top(login_page):
+def test_goods_top(login_page):
     login_to_account(login_page, credentials["analyst"])
     analyst_dlg = Desktop(backend="uia").Analyst
     analyst_dlg.Button3.click_input()
     assert analyst_dlg.DataGridView.Custom2.Edit4.legacy_properties()["Value"] == "DVD Проигрыватель"
     analyst_dlg.Button7.click_input()
 
+def test_create_order(login_page):
+    login_to_account(login_page, credentials["manager"])
+    manager_dlg = Desktop(backend="uia").Manager
+    rect = manager_dlg.rectangle()
+    top, left = rect.top, rect.left
+    mouse.click(coords=(top + (280 + 30), left + (460 - 410)))
+    mouse.click(coords=(top + (280 - 130), left + (460 - 310)))
+    manager_dlg.Edit.type_keys(2, pause=0.05)
+    mouse.click(coords=(top + (280 + 90), left + (460 - 255)))
+    mouse.click(coords=(top + (280 + 5), left + (460 - 28)))
+    mouse.click(coords=(top + (280 + 450), left + (460 - 370)))
+    mouse.click(coords=(top + (280 + 450), left + (460 - 27)))
+    manager_dlg.Button4.click_input()
+
 
 if __name__ == "__main__":
     Popen('C:\\Debug\\Course.exe')
     main = Desktop(backend="uia").LoginPage
+    login_to_account(main, credentials["manager"])
+    manager_dlg = Desktop(backend="uia").Manager
+    rect = manager_dlg.rectangle()
+    top, left = rect.top, rect.left
+    mouse.click(coords=(top + (280 + 30), left + (460 - 410)))
+    # mouse.click(coords=(top + (280 - 130), left + (460 - 310)))
+    # manager_dlg.Edit.type_keys(2, pause=0.05)
+    # mouse.click(coords=(top + (280 + 90), left + (460 - 255)))
+    # mouse.click(coords=(top + (280 + 5), left + (460 - 28)))
+    # mouse.click(coords=(top + (280 + 450), left + (460 - 370)))
+    # mouse.click(coords=(top + (280 + 450), left + (460 - 27)))
+    mouse.click(coords=(top + (280 + 80), left + (460 - 410)))
+    manager_dlg.print_control_identifiers()
+    if (manager_dlg.DataGridView.Custom11.Edit65.legacy_properties()["CustomersName Строка 9"] == "Екатерина" and
+            manager_dlg.DataGridView.Custom11.Edit65.legacy_properties()["GoodsOrderStatus Строка 9"] == "Ready"):
+         mouse.click(coords=(top + (280 - 130), left + (460 - 130)))
 
-
-
-
-    # login_to_account(main, credentials["admin"])
-    # admin_dlg = Desktop(backend="uia").Administrator
-    # admin_dlg.print_control_identifiers()
-    # # #переход к увольнению сотрудников
-    # admin_dlg.TabItem2.click_input()
-    # from pywinauto import mouse
-    #
-    # rect = admin_dlg.rectangle()
-    # top, left = rect.top, rect.left
-    # mouse.click(coords=(top + (280 - 130), left + (460 - 88)))
-    # mouse.click(coords=(top + (280 + 420), left + (460 - 25)))
-    # admin_dlg.LoginEdit5.type_keys("Сергей", pause=0.05)
-    # admin_dlg.LoginEdit4.type_keys("Спиров", pause=0.05)
-    # admin_dlg.LoginEdit3.type_keys(70000, pause=0.05)
-    # admin_dlg.LoginEdit2.type_keys("spirov_s", pause=0.05)
-    # admin_dlg.LoginEdit1.type_keys("123", pause=0.05)
-    # admin_dlg.Listbox4.click_input()
-    # from pywinauto import mouse
-    #
-    # rect = admin_dlg.rectangle()
-    # top, left = rect.top, rect.left
-    # mouse.click(coords=(top + (280 - 130), left + (460 - 130)))
-    # mouse.click(coords=(top + (280 + 350), left + (460 - 370)))
-    # mouse.click(coords=(top + (280 + 450), left + (460 - 260)))
-    #
-    # admin_dlg.Button0.click_input()
-    # admin_dlg.Button2.click_input()
-    # assert admin_dlg.Dialog2.Static0.legacy_properties()["Name"] == "Employee created"
-    # admin_dlg.Dialog2.Button.click_input()
-    # admin_dlg.Button5.click_input()
-    #
-    # #переход к увольнению сотрудников
-    # admin_dlg.TabItem2.click_input()
-    # if (admin_dlg.Dialog2.Static0.legacy_properties()["Name"] == "Сергей" and
-    #         admin_dlg.Dialog2.Static0.legacy_properties()["Name"] == "Спиров"):
-    #     #выбираем в списке Сергей Спиров
-    #     admin_dlg.Button5.click_input()
-
-
+ #print_control_identifiers()
     print("")
