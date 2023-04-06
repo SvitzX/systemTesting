@@ -3,6 +3,7 @@ from subprocess import Popen
 # Import pywinauto Desktop class and timings class
 from pywinauto import Desktop, timings, mouse
 import pytest
+import time
 # Import pywinauto Application class
 from pywinauto.application import Application
 
@@ -31,6 +32,8 @@ credentials = {
 @pytest.fixture
 def login_page():
     Popen('Course.exe')
+    time.sleep(5)
+    print(dir(Desktop(backend="uia")))
     main = Desktop(backend="uia").LoginPage
     yield main
     main.TitleBar.Button3.click_input()
