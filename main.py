@@ -30,7 +30,7 @@ credentials = {
 
 @pytest.fixture
 def login_page():
-    Popen('C:\\Debug\\Course.exe')
+    Popen('Course.exe')
     main = Desktop(backend="uia").LoginPage
     yield main
     main.TitleBar.Button3.click_input()
@@ -116,6 +116,8 @@ def test_goods_top(login_page):
     assert analyst_dlg.DataGridView.Custom2.Edit4.legacy_properties()["Value"] == "DVD Проигрыватель"
     analyst_dlg.Button7.click_input()
 
+
+#wip
 def test_create_order(login_page):
     login_to_account(login_page, credentials["manager"])
     manager_dlg = Desktop(backend="uia").Manager
@@ -128,28 +130,36 @@ def test_create_order(login_page):
     mouse.click(coords=(top + (280 + 5), left + (460 - 28)))
     mouse.click(coords=(top + (280 + 450), left + (460 - 370)))
     mouse.click(coords=(top + (280 + 450), left + (460 - 27)))
-    manager_dlg.Button4.click_input()
+    mouse.click(coords=(top + (280 + 80), left + (460 - 410)))
+    data = [child.legacy_properties()['Value']
+            for child in manager_dlg.Table.descendants()
+            if child.element_info.control_type == "Edit"
+            ][:-7]
+
+    assert data[-1] == "Ready"
+    assert data[-2] == "1600"
+    assert data[-3] == "Санкт-Петербург"
+    assert data[-4] == "М.Видео в ТЦ «Европолис»"
+    assert data[-5] == "Вилкова"
+    assert data[-6] == "Екатерина"
+    manager_dlg.Button6.click_input()
+
+
 
 
 if __name__ == "__main__":
-    Popen('C:\\Debug\\Course.exe')
+    Popen('Course.exe')
     main = Desktop(backend="uia").LoginPage
     login_to_account(main, credentials["manager"])
     manager_dlg = Desktop(backend="uia").Manager
+
     rect = manager_dlg.rectangle()
     top, left = rect.top, rect.left
-    mouse.click(coords=(top + (280 + 30), left + (460 - 410)))
-    # mouse.click(coords=(top + (280 - 130), left + (460 - 310)))
-    # manager_dlg.Edit.type_keys(2, pause=0.05)
-    # mouse.click(coords=(top + (280 + 90), left + (460 - 255)))
-    # mouse.click(coords=(top + (280 + 5), left + (460 - 28)))
-    # mouse.click(coords=(top + (280 + 450), left + (460 - 370)))
-    # mouse.click(coords=(top + (280 + 450), left + (460 - 27)))
     mouse.click(coords=(top + (280 + 80), left + (460 - 410)))
-    manager_dlg.print_control_identifiers()
-    if (manager_dlg.DataGridView.Custom11.Edit65.legacy_properties()["CustomersName Строка 9"] == "Екатерина" and
-            manager_dlg.DataGridView.Custom11.Edit65.legacy_properties()["GoodsOrderStatus Строка 9"] == "Ready"):
-         mouse.click(coords=(top + (280 - 130), left + (460 - 130)))
+    data = [child.legacy_properties()['Value']
+            for child in manager_dlg.Table.descendants()
+            if child.element_info.control_type == "Edit"
+            ][:-7]
 
- #print_control_identifiers()
+
     print("")

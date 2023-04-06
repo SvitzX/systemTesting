@@ -1,0 +1,19 @@
+name: Windows Workflow
+on: [push]
+
+jobs:
+  system_tests:
+    name: course system tests run on windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: install pip
+        run: pip install pywinauto pytest
+        shell: bash
+
+      - name: run pytest
+        run: pytest .\main.py
+        shell: bash
