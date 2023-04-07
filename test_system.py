@@ -34,7 +34,6 @@ def login_page():
     Popen('Course.exe')
     time.sleep(5)
     print(dir(Desktop(backend="uia")))
-    Desktop(backend="uia").print_control_identifiers()
     main = Desktop(backend="uia").LoginPage
     yield main
     main.TitleBar.Button3.click_input()
