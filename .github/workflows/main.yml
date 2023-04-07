@@ -15,5 +15,5 @@ jobs:
         shell: bash
 
       - name: run pytest
-        run: pytest
+        run: pytest -p no:faulthandler
         shell: bash
